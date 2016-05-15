@@ -6,26 +6,17 @@
 
 module ::WatchCategory
   def self.watch_category!
-    mcneel_private_category = Category.find_by_slug("Referendum")
-    mcneel_group = Group.find_by_name("Referendum")
+    referendum_category = Category.find_by_slug("Referendum")
+    referendum_group = Group.find_by_name("Referendum")
 
-    unless mcneel_private_category.nil? || mcneel_group.nil?
-      mcneel_group.users.each do |user|
+    unless referendum_category.nil? || referendum_group.nil?
+      referendum_group.users.each do |user|
         watched_categories = CategoryUser.lookup(user, :watching).pluck(:category_id)
-        CategoryUser.set_notification_level_for_category(user, CategoryUser.notification_levels[:watching], mcneel_private_category.id) unless watched_categories.include?(mcneel_private_category.id)
+        CategoryUser.set_notification_level_for_category(user, CategoryUser.notification_levels[:watching], referendum_category.id) unless watched_categories.include?(mcneel_private_category.id)
       end
     end
-
-    reseller_category = Category.find_by_slug("resellers")
-    reseller_group = Group.find_by_name("resellers")
-    return if reseller_category.nil? || reseller_group.nil?
-
-    reseller_group.users.each do |user|
-      watched_categories = CategoryUser.lookup(user, :watching).pluck(:category_id)
-      CategoryUser.set_notification_level_for_category(user, CategoryUser.notification_levels[:watching], reseller_category.id) unless watched_categories.include?(reseller_category.id)
-    end
-  end
 end
+
 
 after_initialize do
   module ::WatchCategory
