@@ -6,8 +6,8 @@
 
 module ::WatchCategory
   def self.watch_category!
-    mcneel_private_category = Category.find_by_slug("mcneel-private")
-    mcneel_group = Group.find_by_name("mcneel")
+    mcneel_private_category = Category.find_by_slug("Referendum")
+    mcneel_group = Group.find_by_name("Referendum")
 
     unless mcneel_private_category.nil? || mcneel_group.nil?
       mcneel_group.users.each do |user|
