@@ -6,13 +6,13 @@
 
 module ::WatchCategory
   def self.watch_category!
-    referendum_category = Category.find_by_slug("Referendum")
-    referendum_group = Group.find_by_name("Referendum")
+    Referendum_category = Category.find_by_slug("Referendum")
+    Referendum_group = Group.find_by_name("Referendum")
 
     unless referendum_category.nil? || referendum_group.nil?
       referendum_group.users.each do |user|
         watched_categories = CategoryUser.lookup(user, :watching).pluck(:category_id)
-        CategoryUser.set_notification_level_for_category(user, CategoryUser.notification_levels[:watching], referendum_category.id) unless watched_categories.include?(mcneel_private_category.id)
+        CategoryUser.set_notification_level_for_category(user, CategoryUser.notification_levels[:watching], Referendum_category.id) unless watched_categories.include?(mcneel_private_category.id)
       end
     end
 end
