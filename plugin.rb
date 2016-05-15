@@ -1,19 +1,30 @@
 # name: Watch Category
 # about: Watches a category for all the users in a particular group
-# version: 0.2
-# authors: Arpit Jalan
-# url: https://github.com/discourse/discourse-watch-category-mcneel
+# version: 1.0
+# authors: Jared Needell
 
 module ::WatchCategory
-  def self.watch_category!
-    referendum_category = Category.find_by_slug("referendum")
-    referendum_group = Group.find_by_name("referendum")
-    return if referendum_category.nil? || referendum_group.nil?
+  def self.watch_by_group(category_slug, group_name)
+    category = Category.find_by(slug: category_slug)
+    group = Group.find_by_name(group_name)
+    return if category.nil? || group.nil?
 
-    referendum_group.users.each do |user|
+    group.users.each do |user|
       watched_categories = CategoryUser.lookup(user, :watching).pluck(:category_id)
-      CategoryUser.set_notification_level_for_category(user, CategoryUser.notification_levels[:watching], referendum_category.id) unless watched_categories.include?(referendum_category.id)
+      CategoryUser.set_notification_level_for_category(user, CategoryUser.notification_levels[:watching], category.id) unless watched_categories.include?(category.id) || user.staged
     end
+  end
+
+  def self.watch_all(category_slug)
+    category = Category.find_by(slug: category_slug)
+    User.all.each do |user|
+      watched_categories = CategoryUser.lookup(user, :watching).pluck(:category_id)
+      CategoryUser.set_notification_level_for_category(user, CategoryUser.notification_levels[:watching], category.id) unless watched_categories.include?(category.id)  || user.staged
+    end 
+  end
+
+  def self.watch_category!
+    WatchCategory.watch_by_group("referendum", "Referendum")
   end
 end
 
