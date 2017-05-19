@@ -24,7 +24,16 @@ module ::WatchCategory
   end
 
   def self.watch_category!
-    WatchCategory.watch_by_group("referendum", "Referendum")
+    WatchCategory.watch_by_group("engineer-operations", "EngineerOperations")
+    WatchCategory.watch_by_group("marketing", "Marketing")
+    WatchCategory.watch_by_group("hr", "HumanResources")
+    WatchCategory.watch_by_group("finance", "Finance")
+    WatchCategory.watch_by_group("sales", "Sales")
+    WatchCategory.watch_by_group("tech-team", "TechTeam")
+    WatchCategory.watch_by_group("sales", "Sales")
+    WatchCategory.watch_by_group("customer-success", "CustomerSuccess")
+    WatchCategory.watch_by_group("ceos", "Ceos")
+    WatchCategory.watch_by_group("all-community", "AllCommunity")
   end
 end
 
